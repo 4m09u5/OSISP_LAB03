@@ -18,12 +18,12 @@ ifeq ($(MODE), release)
 	vpath %.o build/release
 endif
 
-objects = $(OUT_DIR)/parent.o $(OUT_DIR)/util.o
+objects = $(OUT_DIR)/parent.o
 #objects = main.o parser.o
 prog = $(OUT_DIR)/parent
 
 ifeq ($(TARGET), child)
-	objects = $(OUT_DIR)/child.o $(OUT_DIR)/util.o
+	objects = $(OUT_DIR)/child.o
 	prog = $(OUT_DIR)/child
 endif
 

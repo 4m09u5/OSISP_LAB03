@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include <sys/wait.h>
-#include "util.h"
+#include "onSignal.h"
 
 pid_t *children = NULL;
 size_t childrenSize = 0;
@@ -145,6 +145,7 @@ void garrulous(size_t index)
 {
     if (index == 0)
     {
+        alarm(0);
         for (size_t i = 0; i < childrenSize; i++)
         {
             kill(children[i], SIGUSR2);
@@ -165,6 +166,7 @@ void garrulous(size_t index)
 
 void ask(size_t index)
 {
+    alarm(5);
     for (size_t i = 0; i < childrenSize; i++)
     {
         kill(children[i], (i + 1 == index) ? SIGUSR2 : SIGUSR1);
@@ -208,13 +210,21 @@ void handleAction(struct ParsedAction action)
     }
 }
 
+void onAlarm(int a)
+{
+    (void)a;
+    garrulous(0);
+}
+
 int main()
 {
+    onSignal(SIGALRM, onAlarm);
     char buff[256];
 
     while (1)
     {
         fgets(buff, sizeof(buff), stdin);
+        rewind(stdin);
         handleAction(parse(buff));
     }
 }
