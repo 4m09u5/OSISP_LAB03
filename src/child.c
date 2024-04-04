@@ -44,7 +44,7 @@ void print()
 {
     struct Statistic copy = statistic;
     printf(
-        "PPID:%d PID:%5d DD:%4d DU:%4d UD:%4d UU:%4d\n",
+        "PPID:%d PID:%5d 00:%4d 01:%4d 10:%4d 11:%4d\n",
         getppid(),
         getpid(),
         copy.down_down,
